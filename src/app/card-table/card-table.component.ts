@@ -8,33 +8,39 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 export class CardTableComponent implements OnInit {
   public canTurn = 1;
   public cards = [
-    {figure: 'jenkins', found: false, id: 1, flipped: false},
-    {figure: 'react', found: false, id: 2, flipped: false},
-    {figure: 'ts', found: false, id: 3, flipped: false},
-    {figure: 'supercharge', found: false, id: 4, flipped: false}
+    {figure: 'jenkins', found: false, id: 0, flipped: 0},
+    {figure: 'react', found: false, id: 1, flipped: 0},
+    {figure: 'ts', found: false, id: 2, flipped: 0},
+    {figure: 'supercharge', found: false, id: 3, flipped: 0}
   ];
 
   private MAX_FACING_CARDS = 2;
 
   private facingCards = [];
   private turnBackFacingCards() {
-    window.setTimeout(() => {
-    
-    }, 500);
+      this.cards[this.facingCards[0]].flipped = 0;
+      this.cards[this.facingCards[1]].flipped = 0;
   }
 
   public cardFlippedHandler(card) {
-    if (card.isTurnedOver) {
-      this.facingCards.push(card.id);
+    if (+card.isTurnedOver) {
+      this.cards[card.id].flipped = 0;
+      if (this.facingCards.indexOf(card.id) > -1) {
+        this.facingCards.splice(this.facingCards.indexOf(card.id), 1);
+      }
+    } else {
+      this.cards[card.id].flipped = 1;
+      if (this.facingCards.indexOf(card.id) === -1) {
+        this.facingCards.push(card.id);
+      }
 
-      if (this.facingCards.length === this.MAX_FACING_CARDS) {
+      if (this.facingCards.length >= this.MAX_FACING_CARDS) {
         this.canTurn = 0;
         this.turnBackFacingCards();
       }
-    } else {
-
     }
-    console.log('card Flipped', card);
+    console.log('card Flipped', this.cards);
+    console.log(this.facingCards);
   }
 
   constructor() { }

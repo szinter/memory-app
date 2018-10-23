@@ -7,20 +7,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() figure: string;
+  @Input() id: number;
   @Input() canTurn: number;
   @Input() found: boolean;
+  @Input() isTurnedOver: number;
   @Output() flipEmitter = new EventEmitter();
 
   private backSide = 'card-back';
 
-  private isTurnedOver = false;
-
   public activeSide = this.backSide;
-
-  public turnFaceDown() {
-    this.isTurnedOver = false;
-    this.turnCardOver();
-  }
 
   public clickHandler() {
     if (+this.canTurn) {
@@ -29,15 +24,16 @@ export class CardComponent implements OnInit {
   }
 
   public turnCardOver() {
-      this.isTurnedOver = !this.isTurnedOver;
-      this.activeSide = this.isTurnedOver ? `card-${this.figure}` : this.backSide;
+    console.log(this);
       this.flipEmitter.emit(this);
+      this.activeSide = !+this.isTurnedOver ? `card-${this.figure}` : this.backSide;
   }
 
   constructor() {
   }
 
   ngOnInit() {
+    this.activeSide = +this.isTurnedOver ? `card-${this.figure}` : this.backSide;
   }
 
 }

@@ -3,6 +3,6 @@
 </p>
 <div class='card-table'>
   <div class="card-holder" *ngFor="let card of cards">
-    <app-card id="{{card.id}}" figure="{{card.figure}}" canTurn="{{canTurn}}" found="{{card.found}}" (flipEmitter)="cardFlippedHandler($event)"></app-card>
+    <app-card isTurnedOver="{{card.flipped}}" id="{{card.id}}" figure="{{card.figure}}" canTurn="{{canTurn}}" found="{{card.found}}" (flipEmitter)="cardFlippedHandler($event)"></app-card>
 </div>
 </div>
