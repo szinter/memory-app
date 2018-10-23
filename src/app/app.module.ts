@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { Routes, RouterModule } from '@angular/router';
+
 import { AppComponent } from './app.component';
 import { CardComponent } from './card/card.component';
 import { CardTableComponent } from './card-table/card-table.component';
@@ -10,6 +12,11 @@ import { RestartComponent } from './restart/restart.component';
 import { StartComponent } from './start/start.component';
 import { PairCountComponent } from './pair-count/pair-count.component';
 import { HomeComponent } from './home/home.component';
+
+const appRouts: Routes = [
+  {path: '', component: HomeComponent},
+  {path: 'game', component: GameComponent}
+];
 
 @NgModule({
   declarations: [
@@ -24,7 +31,8 @@ import { HomeComponent } from './home/home.component';
     HomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(appRouts)
   ],
   providers: [],
   bootstrap: [AppComponent]
