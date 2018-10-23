@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -7,8 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() figure: string;
-  @Input() canTurn: boolean;
+  @Input() canTurn: number;
   @Input() found: boolean;
+  @Output() flipEmitter = new EventEmitter();
 
   private backSide = 'card-back';
 
@@ -16,10 +17,21 @@ export class CardComponent implements OnInit {
 
   public activeSide = this.backSide;
 
-  public turnCardOver() {
-    this.isTurnedOver = !this.isTurnedOver;
+  public turnFaceDown() {
+    this.isTurnedOver = false;
+    this.turnCardOver();
+  }
 
-    this.activeSide = this.isTurnedOver ? `card-${this.figure}` : this.backSide;
+  public clickHandler() {
+    if (+this.canTurn) {
+      this.turnCardOver();
+    }
+  }
+
+  public turnCardOver() {
+      this.isTurnedOver = !this.isTurnedOver;
+      this.activeSide = this.isTurnedOver ? `card-${this.figure}` : this.backSide;
+      this.flipEmitter.emit(this);
   }
 
   constructor() {
