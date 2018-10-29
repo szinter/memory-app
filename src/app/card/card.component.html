@@ -1,2 +1,2 @@
-<div [className]="activeSide" (click)="clickHandler()">
+<div  [ngClass]="activeSide + (model.found ? ' found' : '')" (click)="clickHandler()">
 </div>

@@ -6,34 +6,27 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./card.component.less']
 })
 export class CardComponent implements OnInit {
-  @Input() figure: string;
-  @Input() id: number;
-  @Input() canTurn: number;
-  @Input() found: boolean;
-  @Input() isTurnedOver: number;
+  @Input() model: any;
+  @Input() canTurn: boolean;
   @Output() flipEmitter = new EventEmitter();
 
   private backSide = 'card-back';
 
-  public activeSide = this.backSide;
+  public activeSide: string;
 
   public clickHandler() {
-    if (+this.canTurn) {
-      this.turnCardOver();
+    if (this.canTurn && !this.model.found) {
+      this.model.flipped = !this.model.flipped;
+      this.flipEmitter.emit(this.model);
     }
   }
 
-  public turnCardOver() {
-    console.log(this);
-      this.flipEmitter.emit(this);
-      this.activeSide = !+this.isTurnedOver ? `card-${this.figure}` : this.backSide;
-  }
+  public turnCardOver() {}
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.activeSide = +this.isTurnedOver ? `card-${this.figure}` : this.backSide;
+    this.activeSide = this.model.flipped ? `card-${this.model.figure}` : this.backSide;
   }
 
 }
