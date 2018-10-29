@@ -12,6 +12,7 @@ import { RestartComponent } from './restart/restart.component';
 import { StartComponent } from './start/start.component';
 import { PairCountComponent } from './pair-count/pair-count.component';
 import { HomeComponent } from './home/home.component';
+import { CardsModel } from './cards.model';
 
 const appRouts: Routes = [
   {path: '', component: HomeComponent},
@@ -34,7 +35,7 @@ const appRouts: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRouts)
   ],
-  providers: [],
+  providers: [CardsModel],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

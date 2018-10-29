@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
+import { CardsModel } from '../cards.model';
 
 @Component({
   selector: 'app-card-table',
@@ -6,14 +7,8 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
   styleUrls: ['./card-table.component.less']
 })
 export class CardTableComponent implements OnInit {
-  canTurn = true;
-  cards = [
-    {figure: 'jenkins', found: false, flipped: false},
-    {figure: 'react', found: false, flipped: false},
-    {figure: 'ts', found: false, flipped: false},
-    {figure: 'supercharge', found: false, flipped: false}
-    {figure: 'ts', found: false, flipped: false}
-  ];
+  public canTurn = true;
+  private cards;
 
   private MAX_FACING_CARDS = 2;
   private facingCardsCount = 0;
@@ -26,7 +21,7 @@ export class CardTableComponent implements OnInit {
     const facingCards = this.cards.filter((card) => {
       return card.flipped && !card.found;
     });
-    const sameFiguredCards = facingCards.filter((card) => card.figure === facingCards[0].figure)
+    const sameFiguredCards = facingCards.filter((card) => card.figure === facingCards[0].figure);
     return sameFiguredCards.length === facingCards.length;
   }
 
@@ -34,15 +29,11 @@ export class CardTableComponent implements OnInit {
     this.cards.forEach((card) => {
       if (card.flipped && !card.found) {
         card.found = true;
-        this.updateCardInList(card);
+        this.cardsModel.updateCardInList(card);
       }
     });
 
     this.facingCardsCount = 0;
-  }
-
-  private updateCardInList(card) {
-    this.cards[this.cards.indexOf(card)] = JSON.parse(JSON.stringify(card));
   }
 
   private turnBackFacingCards() {
@@ -50,16 +41,16 @@ export class CardTableComponent implements OnInit {
       this.cards.forEach((card) => {
         if (!card.found && card.flipped) {
           card.flipped = false;
-          this.updateCardInList(card);
+          this.cardsModel.updateCardInList(card);
         }
       });
 
       this.facingCardsCount = 0;
       this.canTurn = true;
-    }, 2000);
+    }, 200);
   }
 
-  cardFlippedHandler(card) {
+  public cardFlippedHandler(card) {
     if (card.flipped) {
       this.facingCardsCount++;
     } else {
@@ -75,10 +66,13 @@ export class CardTableComponent implements OnInit {
       }
     }
 
-    this.updateCardInList(card);
+    this.cardsModel.updateCardInList(card);
   }
 
-  constructor() {}
+  constructor(private cardsModel: CardsModel) {
+    this.cardsModel.generateCards(10);
+    this.cards = this.cardsModel.getCards();
+  }
 
   ngOnInit() {}
 }
