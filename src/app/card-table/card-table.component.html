@@ -1,6 +1,3 @@
-<p>
-  card-table works!
-</p>
 <div class='card-table'>
   <div class="card-holder" *ngFor="let card of cards">
     <app-card [canTurn]="canTurn" [model]="card"  (flipEmitter)="cardFlippedHandler($event)"></app-card>

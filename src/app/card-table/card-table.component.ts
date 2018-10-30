@@ -47,7 +47,12 @@ export class CardTableComponent implements OnInit {
 
       this.facingCardsCount = 0;
       this.canTurn = true;
-    }, 200);
+    }, 500);
+  }
+
+  private onNewCardsGenerated(cards) {
+    this.cards = [];
+    this.cards = cards;
   }
 
   public cardFlippedHandler(card) {
@@ -70,8 +75,7 @@ export class CardTableComponent implements OnInit {
   }
 
   constructor(private cardsModel: CardsModel) {
-    this.cardsModel.generateCards(10);
-    this.cards = this.cardsModel.getCards();
+    this.cardsModel.cardsGenerrated.subscribe((cards) => this.onNewCardsGenerated(cards));
   }
 
   ngOnInit() {}

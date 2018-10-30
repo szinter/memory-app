@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { CardsModel } from '../cards.model';
 
 @Component({
   selector: 'app-restart',
@@ -6,8 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./restart.component.less']
 })
 export class RestartComponent implements OnInit {
+  @Output() restart: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() { }
+  public resetGame() {
+    this.restart.emit(true);
+  }
+
+  constructor(private cardsModel: CardsModel) { }
 
   ngOnInit() {
   }

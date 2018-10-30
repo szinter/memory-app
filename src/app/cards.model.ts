@@ -1,10 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
+
 @Injectable()
 export class CardsModel {
-    public someEmmiterThatNeedsANewName: EventEmitter<any> = new EventEmitter<any>();
+    public cardsGenerrated: EventEmitter<any> = new EventEmitter<any>();
 
     private MAX_SIMILAR_CARD_COUNT = 2;
+    private pairsCount;
 
     private allFigures = ['angular',
                        'd3',
@@ -52,10 +54,13 @@ export class CardsModel {
         return figures;
     }
 
-    public generateCards(pairCount: number) {
+    public generateCards(pairCount: number = this.pairsCount) {
         if (pairCount > this.allFigures.length) {
             throw new Error(`Can't have more pairs than ${this.allFigures.length}`);
         }
+        console.log('generate');
+
+        this.pairsCount = pairCount;
 
         this.figures = this.getRandomPairs(pairCount);
 
@@ -71,6 +76,8 @@ export class CardsModel {
                 this.cards.push(card);
             }
         }
+
+        this.cardsGenerrated.emit(this.cards);
     }
 
     public getCards() {
